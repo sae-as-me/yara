@@ -1,1 +1,1 @@
-# yara rules
+yara
