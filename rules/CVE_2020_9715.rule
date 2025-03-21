@@ -1,0 +1,11 @@
+rule CVE_2020_9715
+{
+    strings:
+		$pdf_header={25 50 44 46 2D 31 2E}//%PDF-1.
+		$mjs1=/this\.dataObjects\[0\]\.toString\(\);/ nocase
+		$mjs2=/this\.dataObjects\[0\]\ *=\ *null;/ nocase
+		$mjs3=/g_timeout\ *=\ *app\.setTimeOut\(\ *\"[0-9a-zA-Z_]*\(\)\"\ *,\ *1000\ *\);/ nocase
+		
+    condition:
+        all of them and $pdf_header at 0
+}

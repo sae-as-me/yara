@@ -1,0 +1,41 @@
+rule Windows_search_ms_defect
+{
+	strings:
+		$script_start=/<script/ nocase
+		$script_end=/<\/script>/ nocase
+		$wlh=/window\.location\.href/ nocase
+		$search_ms=/search-ms/ nocase
+		$webdav=/webdav/ nocase
+		//$hidden_link=/(src|href)\ *=\ *".*\ hidden/ nocase
+		
+	condition:
+		all of them and
+		for any i in (1..#script_start):
+		(
+			for any j in (1..#wlh):
+			(
+				@script_start[i]<@wlh[j] and @wlh[j]<@script_end[i] and
+				for any k in (1..#search_ms):
+				(
+					@script_start[i]<@search_ms[k] and @search_ms[k]<@script_end[i] and
+					@wlh[j]<@search_ms[k] and
+					for all m in (@wlh[j]+!wlh..@search_ms[k]-1):(uint8(m) != 0x3B)
+				)
+				and
+				for any k in (1..#webdav):
+				(
+					@script_start[i]<@webdav[k] and @webdav[k]<@script_end[i] and
+					@wlh[j]<@webdav[k] and
+					for all m in (@wlh[j]+!wlh..@webdav[k]-1):(uint8(m) != 0x3B)
+				)
+			)
+		)
+		/*
+		and
+		for any i in (1..#hidden_link):
+		(
+			for all j in (@hidden_link+3..@hidden_link+!hidden_link):
+				(uint8(j) != 0x3C and uint8(j) != 0x3E)
+		)
+		*/
+}

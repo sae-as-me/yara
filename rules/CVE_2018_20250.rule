@@ -1,0 +1,17 @@
+rule CVE_2018_20250
+{
+    strings:
+		$ace_header={6B 28 31 00 00 00 90 2A 2A 41 43 45 2A 2A}
+		//$path=/C:\\C:C:\.\.\/AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\hi\.exe/ nocase
+		$cpath=/.:\\.:[c-zC-Z]:/ nocase
+		//$forward=/\.\./
+		/*
+		$shell32_dll={53 48 45 4C 4C 33 32 2E 64 6C 6C}
+		$KERNEL32_dll={4B 45 52 4E 45 4C 33 32 2E 64 6C 6C}
+		$advapi32_dll={41 44 56 41 50 49 33 32 2E 64 6C 6C}
+		*/
+		
+    condition:
+        all of them
+		
+}

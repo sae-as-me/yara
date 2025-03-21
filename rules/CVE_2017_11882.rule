@@ -1,0 +1,24 @@
+rule CVE_2017_11882
+{
+    strings:
+		$rtf_header={7B 5C 72 74 66}
+		$equ="Equation.3" nocase
+		$equ2="4571756174696f6e2e33" nocase
+		$ole=/4f..6c..65/ nocase
+		$zz="030101030a0a01085a5a" nocase
+		//$payload=/030101030a0a01085a5a[0-9a-zA-Z]{88}142140000000[0-9a-zA-Z]+00/ nocase//only 109b
+		/*
+		$root=/52..6f..6f..74/ nocase
+		$entry=/45..6e..74..72..79/ nocase
+		$CompObj=/43..6f..6d..70..4f..62..6a/ nocase
+		$System="53797374656d" nocase
+		$METAFILEPICT="4d45544146494c4550494354" nocase
+		$mathtype="4d61746854797065" nocase
+		*/
+		
+    condition:
+        $rtf_header at 0 and
+		$ole and $zz and
+		($equ or $equ2)
+		
+}

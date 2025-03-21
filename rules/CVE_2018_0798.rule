@@ -1,0 +1,15 @@
+rule CVE_2018_0798
+{
+    strings:
+		$rtf_header={7B 5C 72 74 66}
+		$equ="Equation.3" nocase
+		$equ2="4571756174696f6e2e33" nocase
+		$ole=/4f..6c..65/ nocase
+		$Matrix=/030101030a0a0105010101/ nocase
+		
+    condition:
+        $rtf_header at 0 and
+		$ole and $Matrix and
+		($equ or $equ2)
+		
+}
