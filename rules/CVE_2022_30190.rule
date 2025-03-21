@@ -1,0 +1,26 @@
+rule CVE_2022_30190_word__rels
+{
+    strings:
+		$xml="<?xml"
+		//suspicious_string
+		$ss0="oleObject" nocase
+		$ss1="TargetMode=\"External" nocase
+		
+    condition:
+        all of them
+}
+
+rule CVE_2022_30190_word_document_xml
+{
+    strings:
+		$ole="<o:OLEObject"
+		$ss1="Type=\"Link" nocase
+		$ss2="ProgID=\"htmlfile" nocase
+		$ss3="UpdateMode=\"OnCall" nocase
+		$ss4="EnhancedMetaFile" nocase
+		$ss5=/<o:LockedField>?false?<\/o:LockedField>/ nocase
+		$ss6="\\f 0" nocase
+		
+    condition:
+        all of them
+}

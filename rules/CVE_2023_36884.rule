@@ -1,0 +1,24 @@
+rule CVE_2023_36884_suspicious_xml_rels
+{
+    strings:
+		$m_rtf=/Target=\"\/word\/[a-zA-Z]+\.rtf\"/ nocase
+        $mId="AltChunkId"
+		
+    condition:
+        all of them
+}
+
+rule CVE_2023_36884_malicious_rtf
+{
+    strings:
+		$m_ole1_1="objautlink" nocase
+		$m_ole1_2="objupdate" nocase
+		$m_ole2="Word.Document.8" nocase
+        $ms1="68007400740070003A002F002F" nocase //'http://'
+		$ms2="5c5c" nocase //'\\'
+		
+    condition:
+        all of them
+		and
+		@m_ole1_1<@m_ole1_2
+}

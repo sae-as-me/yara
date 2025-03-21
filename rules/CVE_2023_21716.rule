@@ -1,0 +1,14 @@
+rule CVE_2023_21716
+{
+    strings:
+		$rtf_header={7B 5C 72 74 66}
+		//malicious_pattern
+		$mp1="\\fonttbl"
+		$mp2="crash??"
+		$mp3=/\\f[0-9]+A;/
+		//\rtlch
+		$ms=/\\rt.*lch/
+		
+    condition:
+        $rtf_header at 0 and all of ($mp*,$ms) and #mp3>=32760
+}
