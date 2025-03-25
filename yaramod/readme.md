@@ -1,1 +1,0 @@
-- [https://github.com/avast/yaramod](https://github.com/avast/yaramod)
